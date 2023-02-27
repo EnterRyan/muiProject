@@ -1,0 +1,5 @@
+[
+  {"title" : "마이 페이지", "svg" : "AssignmentIndRounded", "key" : "Li001"},
+  {"title" : "전체 프로젝트", "svg" : "FormatListBulletedRounded", "key" : "Li002"},
+  {"title" : "개별 프로젝트", "svg" : "ListAltRounded", "key" : "Li003"} 
+]

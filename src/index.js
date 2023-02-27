@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Profile from './components/Profile';
+import MiniDrawer from './components/SideBar';
+import AppLogin from './components/AppLogin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <>
+    <AppLogin/>
+    </>
   </React.StrictMode>
 );
 
