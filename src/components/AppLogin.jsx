@@ -1,32 +1,101 @@
+import { useState } from 'react';
+import axios from 'axios'
 //MUI
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import { TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import { useFormControl } from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
+
+const userInfo = {userId : "",userPassword : ""}
+const POSTLOGINURL = "http://localhost:5000/login";
+const POSTERR = "서버와 통신을 실패하였습니다.";
+const NOTMATCH = "아이디 또는 패스워드가 일치하지 않습니다.";
+const NOTINPUT = "아이디 또는 패스워드를 입력하지 않았습니다.";
 
 export default function AppLogin(){
+  //UnControlled Form set
+  const [userForm, setUserForm] =useState(userInfo);
+  const handleForm = (e)=>{
+    const {name,value} = e.target;
+    setUserForm({...userForm, [name]:value})
+  }
+  //Dialog State
+  const [open, setOpen] = useState(true);
+  const handleDialogClose =(e)=>{setOpen(false)};
+  const handleDialogOpen = (e)=>{setOpen(true)};
+    
+  const onCheckEnterkey = (e)=>{
+    if(e.key ==='Enter'){
+      handleLoginData(e);
+    }
+  }
+  const onCheckEscKey = (e)=>{
+    if(e.keyCode===27){
+      handleDialogClose(e);
+    } 
+  }
+  //onSubmit Event Fucntion
+  const handleLoginData = (e)=>{
+    e.preventDefault();
+    axios.post(POSTLOGINURL, userForm)
+    .catch()
+    .then()
+
+
+  }
   return (
     <Box sx={{bgcolor:'#cfe8fc', height: '100vh'}}>
-      <Container fixed maxWidth="lg" sx={{bgcolor : 'rgb(144, 202, 249)', height: '100vh', display : 'flex', alignItems : 'center'}}>
+      <Container fixed maxWidth="lg" sx={{ height: '100vh', display : 'flex', alignItems : 'center'}}>
         <Box sx={{width : '70%', margin : '0 auto'}}>
+          <FormControl sx={{width : '100%'}} onKeyDown={onCheckEnterkey}>
+          <Typography variant="h5">
+            Markany Edoc
+          </Typography>
           <TextField
             id='userId'
-            label='ID'
+            name='userId'
+            label='아이디'
             fullWidth
             required
+            sx={{marginTop : '15px'}}
             variant='outlined'
-            />
+            onChange={handleForm}
+            value={userForm.userId}
+          />
+
           <TextField
             id='userPassWord'
-            label='PassWord'
+            name='userPassword'
+            label='비밀번호'
             fullWidth
             required
             type ='password'
-            sx={{marginTop : '10px'}}
+            sx={{marginTop : '13px'}}
             variant='outlined'
-            />
+            onChange={handleForm}
+            value={userForm.userPassword}
+          />
+          <Button type="submit" variant="contained" onClick={handleLoginData} fullWidth  sx={{marginTop : '15px'}}>Login</Button>  
+          </FormControl>
         </Box>
       </Container>
+
+      <Dialog open={open} onKeyDown={onCheckEscKey}>
+        <DialogTitle>{`로그인 실패`}</DialogTitle>
+        <DialogContent>{`${NOTINPUT}`}</DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>확인</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
+
+/*
+* onKeypress => onKeyDown (ESC키 인식할수있게변경.)
+*/
