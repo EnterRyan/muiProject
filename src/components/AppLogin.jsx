@@ -13,9 +13,33 @@ import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material
 
 const userInfo = {userId : "",userPassword : ""}
 const POSTLOGINURL = "http://localhost:5000/login";
-const POSTERR = "서버와 통신을 실패하였습니다.";
-const NOTMATCH = "아이디 또는 패스워드가 일치하지 않습니다.";
-const NOTINPUT = "아이디 또는 패스워드를 입력하지 않았습니다.";
+const GETJSON = "/Json/DumUserInfo.json";
+
+const loginStateCode = {
+  0 : "아이디 또는 패스워드를 입력하지 않았습니다.",
+  1 : "아이디 또는 패스워드가 일치하지 않습니다.",
+  2 : "서버와 통신을 실패하였습니다.",
+  3:  "정상!"
+}
+
+function checkLoginMatch(userForm){
+  let matchFlag = false;
+  axios.get(GETJSON)
+  .then((res)=>{
+    for(let i=0; res.data.length>i;i++){
+      if(res.data[i]['userId']===userForm.userId && res.data[i]['userPassword']===userForm.userPassword){
+        matchFlag= true;
+        break;
+      }
+    }
+  })
+  .catch((Err)=>{
+    console.log(Err);
+    return 2;
+  })
+  if(matchFlag === true){return 3;}
+  else{return 1;}
+}
 
 export default function AppLogin(){
   //UnControlled Form set
@@ -25,10 +49,13 @@ export default function AppLogin(){
     setUserForm({...userForm, [name]:value})
   }
   //Dialog State
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const handleDialogClose =(e)=>{setOpen(false)};
   const handleDialogOpen = (e)=>{setOpen(true)};
-    
+  
+  const [loginFlag, setLoginFlag] = useState(3);
+  const [testDB, setTestDB] = useState({userId :"", userPassword : ""});
+
   const onCheckEnterkey = (e)=>{
     if(e.key ==='Enter'){
       handleLoginData(e);
@@ -42,11 +69,16 @@ export default function AppLogin(){
   //onSubmit Event Fucntion
   const handleLoginData = (e)=>{
     e.preventDefault();
-    axios.post(POSTLOGINURL, userForm)
-    .catch()
-    .then()
-
-
+    if(userForm.userId===""||userForm.userPassword===""){
+      setLoginFlag(0);
+      setOpen(true);
+      return;
+    }
+    let returnflag=checkLoginMatch(userForm);
+    setLoginFlag(returnflag);
+    if(loginFlag !=3){
+      setOpen(true);
+    }
   }
   return (
     <Box sx={{bgcolor:'#cfe8fc', height: '100vh'}}>
@@ -87,7 +119,7 @@ export default function AppLogin(){
 
       <Dialog open={open} onKeyDown={onCheckEscKey}>
         <DialogTitle>{`로그인 실패`}</DialogTitle>
-        <DialogContent>{`${NOTINPUT}`}</DialogContent>
+        <DialogContent>{`${loginStateCode[loginFlag]}`}</DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose}>확인</Button>
         </DialogActions>
