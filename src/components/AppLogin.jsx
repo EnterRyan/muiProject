@@ -15,47 +15,11 @@ const userInfo = {userId : "",userPassword : ""}
 const GETJSON = "/Json/DumUserInfo.json";
 
 const loginStateCode = {
-  0 : "아이디 또는 패스워드를 입력하지 않았습니다.",
+  0:  "정상!",
   1 : "아이디 또는 패스워드가 일치하지 않습니다.",
   2 : "서버와 통신을 실패하였습니다.",
-  3:  "정상!"
+  3 : "아이디 또는 패스워드를 입력하지 않았습니다."
 }
-
-function checkLoginMatch(userForm){
-  let matchFlag = false;
-  axios.post('/login',userForm)
-  .then((res)=>{
-    console.log(typeof res.data);
-  })
-  .catch((Err)=>{
-    console.log(Err);
-    return 2;
-  })
-  if(matchFlag === true){return 3;}
-  else{return 1;}
-}
-
-//GET방식으로 도전!
-function checkLoginMatch2(userForm){
-  let matchFlag = false;
-  axios.get(`/login?userId=${userForm.userId}&userPassword=${userForm.userPassword}`)
-  .then((res)=>{
-    if(res.data === '0000'){
-      alert('드디어 성공했구나');
-      return 3;
-    }
-    else{
-      return 1;
-    }
-  })
-  .catch((Err)=>{
-    console.log(Err);
-    return 2;
-  })
-  if(matchFlag === true){return 3;}
-  else{return 1;}
-}
-
 
 export default function AppLogin(){
   //UnControlled Form set
@@ -69,8 +33,7 @@ export default function AppLogin(){
   const handleDialogClose =(e)=>{setOpen(false)};
   const handleDialogOpen = (e)=>{setOpen(true)};
   
-  const [loginFlag, setLoginFlag] = useState(3);
-  const [testDB, setTestDB] = useState({userId :"", userPassword : ""});
+  const [loginFlag, setLoginFlag] = useState(0); 
 
   const onCheckEnterkey = (e)=>{
     if(e.key ==='Enter'){
@@ -86,15 +49,26 @@ export default function AppLogin(){
   const handleLoginData = (e)=>{
     e.preventDefault();
     if(userForm.userId===""||userForm.userPassword===""){
-      setLoginFlag(0);
+      setLoginFlag(3);
       setOpen(true);
       return;
     }
-    let returnflag=checkLoginMatch2(userForm);
-    setLoginFlag(returnflag);
-    if(loginFlag !=3){
+
+    axios.get(`/login?userId=${userForm.userId}&userPassword=${userForm.userPassword}`)
+    .then((res)=>{
+      if(res.data==='0000'){
+        setLoginFlag(0);
+        setOpen(true);
+      }
+      else{
+        setLoginFlag(1);
+        setOpen(true);
+      }
+    })
+    .catch((Err)=>{
+      setLoginFlag(2);
       setOpen(true);
-    }
+    })
   }
   return (
     <Box sx={{bgcolor:'#cfe8fc', height: '100vh'}}>
