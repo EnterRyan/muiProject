@@ -12,7 +12,6 @@ import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material
 
 
 const userInfo = {userId : "",userPassword : ""}
-const POSTLOGINURL = "http://localhost:5000/login";
 const GETJSON = "/Json/DumUserInfo.json";
 
 const loginStateCode = {
@@ -24,13 +23,29 @@ const loginStateCode = {
 
 function checkLoginMatch(userForm){
   let matchFlag = false;
-  axios.get(GETJSON)
+  axios.post('/login',userForm)
   .then((res)=>{
-    for(let i=0; res.data.length>i;i++){
-      if(res.data[i]['userId']===userForm.userId && res.data[i]['userPassword']===userForm.userPassword){
-        matchFlag= true;
-        break;
-      }
+    console.log(typeof res.data);
+  })
+  .catch((Err)=>{
+    console.log(Err);
+    return 2;
+  })
+  if(matchFlag === true){return 3;}
+  else{return 1;}
+}
+
+//GET방식으로 도전!
+function checkLoginMatch2(userForm){
+  let matchFlag = false;
+  axios.get(`/login?userId=${userForm.userId}&userPassword=${userForm.userPassword}`)
+  .then((res)=>{
+    if(res.data === '0000'){
+      alert('드디어 성공했구나');
+      return 3;
+    }
+    else{
+      return 1;
     }
   })
   .catch((Err)=>{
@@ -40,6 +55,7 @@ function checkLoginMatch(userForm){
   if(matchFlag === true){return 3;}
   else{return 1;}
 }
+
 
 export default function AppLogin(){
   //UnControlled Form set
@@ -74,7 +90,7 @@ export default function AppLogin(){
       setOpen(true);
       return;
     }
-    let returnflag=checkLoginMatch(userForm);
+    let returnflag=checkLoginMatch2(userForm);
     setLoginFlag(returnflag);
     if(loginFlag !=3){
       setOpen(true);
