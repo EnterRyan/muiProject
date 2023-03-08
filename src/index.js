@@ -1,17 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Profile from './components/Profile';
-import MiniDrawer from './components/SideBar';
-import AppLogin from './components/AppLogin';
+import AppLogin from './components/Pages/AppLogin';
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <>
-    <AppLogin/>
+    <App/>
     </>
   </React.StrictMode>
 );
