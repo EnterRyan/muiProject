@@ -1,5 +1,6 @@
 import { Router } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Editor from './components/Atoms/Editor';
 import AppLogin from './components/Pages/AppLogin';
 
 const router = createBrowserRouter([
@@ -9,9 +10,20 @@ const router = createBrowserRouter([
     errorElement : <p>404</p>
   },
   { 
-    path : "/Sample", 
-    element :<p>SamplePage</p>,
-    children : [{index : true, element : <p>children</p>}]
+    path : "/main", 
+    element :<p>MainPage</p>,
+  },
+  {
+    path : "/main/detail",
+    element : <p>DetailPage</p>
+  },
+  {
+    path : "/main/FAQ",
+    element : <p>FAQPage</p>
+  },
+  {
+    path : "/comtest",
+    element : <Editor/>
   }
 ]);
 
