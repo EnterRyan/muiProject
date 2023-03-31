@@ -1,6 +1,7 @@
 import { Router } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Editor from './components/Atoms/Editor';
+import UserHistoryInput from './components/Molecule/UserHistoryInput';
 import AppLogin from './components/Pages/AppLogin';
 
 const router = createBrowserRouter([
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
   },
   {
     path : "/comtest",
-    element : <Editor/>
+    element : <UserHistoryInput/>
   }
 ]);
 
