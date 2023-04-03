@@ -1,7 +1,8 @@
 import { Router } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Editor from './components/Atoms/Editor';
-import UserHistoryInput from './components/Molecule/UserHistoryInput';
+import Editor from './components/Molecule/Editor';
+import TableSelectBox from './components/Atoms/SelectTableType';
+import UserHistoryInput from './components/Organism/UserHistoryInput';
 import AppLogin from './components/Pages/AppLogin';
 
 const router = createBrowserRouter([
