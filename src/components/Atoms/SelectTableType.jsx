@@ -4,7 +4,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 /***  
  * 테이블 유형 선택 컴포넌트.
- * total : 전체유형 
+ *   total : 전체유형 
  * contract : 계약, 
  * support : 기술지원, 
  * issue : 이슈.

@@ -4,7 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 
 /*  Quill Editor 사용(toast 유기.) toast UI 커스텀 불가 영역이 너무 많음.*/
 
-export default function EditorBox(props){
+export default function Editor(props){
   const handleQuillEditor=(contents)=>{
     props.editValue(contents);
   }
@@ -28,4 +28,4 @@ export default function EditorBox(props){
       modules={modules}
     />
   );
-}
+} 
