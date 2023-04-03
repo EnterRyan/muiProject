@@ -1,7 +1,7 @@
-import { useState } from 'react';
-//MUI
+import React, { useState } from 'react';
+// MUI
 import Box from '@mui/material/Box';
-//Atomic Component
+// Atomic Component
 import Editor from '../Molecule/Editor';
 import DialogHeader from '../Molecule/DialogHeader';
 
@@ -10,18 +10,18 @@ import DialogHeader from '../Molecule/DialogHeader';
 *  => 상위 컴포넌트 개발 후 Prop Drilling을 고려하여 Context API 사용 해보자.
 */
 
-export default function UserHistoryInput(){
-  const [editorValue, setEditorValue] =  useState('');
+export default function UserHistoryInput() {
+  const [editorValue, setEditorValue] = useState('');
 
-  const handlSetEditorValue =(contents)=>{
+  const handlSetEditorValue = (contents) => {
     setEditorValue(contents);
     console.log(`molecule is  ${editorValue}`);
   };
-  
+
   return (
-    <Box sx={{marginTop:1, width :'700px'}}>
-      <DialogHeader/>
-      <Editor editValue={handlSetEditorValue}/>
+    <Box sx={{ marginTop: 1, width: '700px' }}>
+      <DialogHeader />
+      <Editor editValue={handlSetEditorValue} />
     </Box>
   );
 }

@@ -1,18 +1,17 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
-import AppLogin from './components/Pages/AppLogin';
-import App from './App';
-import Side from './components/Template/SideManu'
 import { CssBaseline } from '@mui/material';
+import reportWebVitals from './reportWebVitals';
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <CssBaseline>
-    <App/>
+      <App />
     </CssBaseline>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function
