@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import React from 'react';
+import PropTypes from 'prop-types';
 // MUI
 import {
   FormControl, InputLabel, MenuItem, Select,
@@ -11,18 +13,18 @@ import {
  * support : 기술지원,
  * issue : 이슈.
  */
-export default function SelectTableType() {
-  const [tableType, setTableType] = useState('total');
-  const handleTalbeType = (e) => { setTableType(e.target.value); };
+// eslint-disable-next-line react/prop-types
+export default function SelectTableType({ handleTalbeType }) {
+  const getTableType = (e) => { handleTalbeType(e.target.value); };
   return (
     <FormControl fullWidth>
       <InputLabel id="tableSelectlabel">유형</InputLabel>
       <Select
         labelId="tableSelectlabel"
         id="tableSelectType"
-        value={tableType}
+        value="total"
         label="tableType"
-        onChange={handleTalbeType}
+        onChange={getTableType}
       >
         <MenuItem value="total">전체</MenuItem>
         <MenuItem value="contract">계약</MenuItem>
@@ -32,3 +34,7 @@ export default function SelectTableType() {
     </FormControl>
   );
 }
+
+SelectTableType.propTypes = {
+  handleTalbeType: PropTypes.func,
+};
