@@ -1,17 +1,18 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Box } from '@mui/system';
+import { useFormContext } from 'react-hook-form';
 
-/*  Quill Editor 사용(toast 유기.) toast UI 커스텀 불가 영역이 너무 많음. */
-// 에디터의 input이 항상 제어컴포넌트일 필요는 없을것 같다.(디바운싱 테스트)
+export default function Editor({ EditorContextName }) {
+  const formContext = useFormContext();
+  const handleEditorInput = (input) => {
+    formContext.setValue(EditorContextName, input);
+  };
 
-export default function Editor({ handlSetEditorValue }) {
-  const configureQuill = (quill) => quill.root.setAttribute('spellcheck', 'true');
-  const handleQuillEditor = (contents) => { handlSetEditorValue(contents); };
   const modules = useMemo(() => ({
+    syntax: false,
     toolbar: {
       container: [
         [{ header: [1, 2, 3, false] }],
@@ -26,14 +27,15 @@ export default function Editor({ handlSetEditorValue }) {
     <Box sx={{ marginBottom: '5px' }}>
       <ReactQuill
         theme="snow"
-        onChange={handleQuillEditor}
+        onChange={handleEditorInput}
         modules={modules}
-        spellcheck={false}
-        configureQuill={configureQuill}
+        spellCheck={false}
       />
     </Box>
   );
 }
+
 Editor.propTypes = {
-  handlSetEditorValue: PropTypes.func,
+  EditorContextName: PropTypes.string,
+  // defaultValue: PropTypes.string,
 };

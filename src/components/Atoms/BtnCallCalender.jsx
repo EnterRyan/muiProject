@@ -14,7 +14,11 @@ export default function BtnCallCalender({ handleChangeDate }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>
-        <DatePicker onChange={handleDatePick} />
+        <DatePicker
+          onChange={handleDatePick}
+          format="YYYY-MM-DD"
+          mask="____-__-__"
+        />
       </DemoContainer>
     </LocalizationProvider>
 

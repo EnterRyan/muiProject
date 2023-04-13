@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // MUI
 import {
@@ -15,14 +15,18 @@ import {
  */
 // eslint-disable-next-line react/prop-types
 export default function SelectTableType({ handleTalbeType }) {
-  const getTableType = (e) => { handleTalbeType(e.target.value); };
+  const [temp, setTemp] = useState('total');
+  const getTableType = (e) => {
+    setTemp(e.target.value);
+    handleTalbeType(e.target.value);
+  };
   return (
     <FormControl fullWidth>
       <InputLabel id="tableSelectlabel">유형</InputLabel>
       <Select
         labelId="tableSelectlabel"
         id="tableSelectType"
-        value="total"
+        value={temp}
         label="tableType"
         onChange={getTableType}
       >
