@@ -8,7 +8,7 @@ import ExitBtn from '../Atoms/ExitBtn';
 import SelectTableType from '../Atoms/SelectTableType';
 
 // TODO: 다이얼로그 헤더는 유형에따라 위에 있어야할 것이 다른데 합성모델로 구현이 가능할까?
-export default function DialogHeader({ handleChangeDate, handleTalbeType }) {
+export default function DialogHeader({ DatePickerContextName, TableTypeContextName }) {
   return (
     <Box sx={{ marginBottom: '5px' }}>
       <Grid container>
@@ -16,10 +16,10 @@ export default function DialogHeader({ handleChangeDate, handleTalbeType }) {
           <Box sx={{ marginTop: 1 }}>
             <Grid container spacing={2} alignItems="flex-end">
               <Grid item xs="auto">
-                <BtnCallCalender handleChangeDate={handleChangeDate} />
+                <BtnCallCalender DatePickerContextName={DatePickerContextName} />
               </Grid>
               <Grid item xs="auto">
-                <SelectTableType handleTalbeType={handleTalbeType} />
+                <SelectTableType TableTypeContextName={TableTypeContextName} />
               </Grid>
             </Grid>
           </Box>
@@ -41,6 +41,6 @@ export default function DialogHeader({ handleChangeDate, handleTalbeType }) {
 
 // P가 대문자면 고장나버렷
 DialogHeader.propTypes = {
-  handleTalbeType: PropTypes.func,
-  handleChangeDate: PropTypes.func,
+  DatePickerContextName: PropTypes.string,
+  TableTypeContextName: PropTypes.string,
 };

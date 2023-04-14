@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {
   FormControl, InputLabel, MenuItem, Select,
 } from '@mui/material';
+import { useFormContext } from 'react-hook-form';
 
 /** *
  * 테이블 유형 선택 컴포넌트.
@@ -14,19 +15,22 @@ import {
  * issue : 이슈.
  */
 // eslint-disable-next-line react/prop-types
-export default function SelectTableType({ handleTalbeType }) {
-  const [temp, setTemp] = useState('total');
+export default function SelectTableType({ TableTypeContextName }) {
+  const useContext = useFormContext();
+  // eslint-disable-next-line no-unused-vars
+  const [inputDate, setInputDate] = useState('total');
   const getTableType = (e) => {
-    setTemp(e.target.value);
-    handleTalbeType(e.target.value);
+    setInputDate(e.target.value);
+    useContext.setValue(TableTypeContextName, e.target.value);
   };
   return (
     <FormControl fullWidth>
       <InputLabel id="tableSelectlabel">유형</InputLabel>
       <Select
+        name={TableTypeContextName}
         labelId="tableSelectlabel"
         id="tableSelectType"
-        value={temp}
+        value={inputDate}
         label="tableType"
         onChange={getTableType}
       >
@@ -40,5 +44,5 @@ export default function SelectTableType({ handleTalbeType }) {
 }
 
 SelectTableType.propTypes = {
-  handleTalbeType: PropTypes.func,
+  TableTypeContextName: PropTypes.string,
 };

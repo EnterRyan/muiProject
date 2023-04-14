@@ -8,28 +8,27 @@ import { useForm, Controller, FormProvider } from 'react-hook-form';
 import Editor from '../Molecule/Editor';
 import DialogHeader from '../Molecule/DialogHeader';
 import BtnSubmit from '../Atoms/BtnSubmit';
+// api
+import PostData from '../../Utils/PostData';
 
-/* DialogHeader, Editor, PostHiddenForm 구성.
-*  에디터의 값을 State로 지정하고 Props로 내려준다. (근데 그럼 아토믹 설계가됨?)=> 더쪼갤수 있겠는대? 3등분
-*  => 상위 컴포넌트 개발 후 Prop Drilling을 고려하여 Context API 사용 해보자.
-*  에디터를 form의 인풋중 하나로 취급하면 히든폼을 따로 만들필요가없다고한다.(react-hook-form)알아BOZA
+/* DialogHeader, Editor, submitbitton 구성
+*  React-hook-form의 Controller를 사용해봤으나 하위 컴포넌트가 의존성이 너무 강해져서 useFormContext로 변경.
+*  ContextAPI를 좀 알아야 useFormContext의 동작을 이해할듯.(re-rendering 문제를 체크해보자.)
 */
+
+/** Props로 전달받아야 하는 것.
+ *  1)POSTtarget : 열람 테이블 유형(유지보수,프로젝트), 유형(신규,수정)
+ */
+const testTraget = 'addhist'; // 나중에는 Props로 받은예정.
 export default function UserHistoryInput() {
   const methods = useForm();
-  const postSubmit = (data) => { console.log(data); };
-
-  // eslint-disable-next-line no-unused-vars
-  const [tableType, setTableType] = useState('');
-  const handleTalbeType = (type) => { setTableType(type); };
-
-  const [inputDate, setInputDate] = useState(null);
-  const handleChangeDate = (newValue) => { setInputDate(newValue); };
+  const postSubmit = (data) => { PostData(testTraget, data); };
 
   return (
     <Box sx={{ marginTop: 1, width: '700px', position: 'relative' }}>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(postSubmit)}>
-          <DialogHeader handleChangeDate={handleChangeDate} handleTalbeType={handleTalbeType} />
+          <DialogHeader DatePickerContextName="DatePicker" TableTypeContextName="TableTypeSelector" />
           <Editor EditorContextName="EditorText" />
           <BtnSubmit />
         </form>

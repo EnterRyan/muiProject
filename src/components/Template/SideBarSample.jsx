@@ -1,4 +1,4 @@
-import {Component, react, useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -17,7 +17,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
-//Icon
+// Icon
 import * as MUIicon from '@mui/icons-material';
 
 const drawerWidth = 240;
@@ -87,38 +87,37 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-//컴포넌트 객체를 직접 변수에 담는건 되고, 그 컴포넌트 이름의 문자열을 변수에 담아서 호출하는건 왜안댐?
-const setActiveComponent =(Obj)=>{
-  const iconComponentName = Obj['svg'];
-  //console.log(iconComponentName);
-  const Icon2= MUIicon[iconComponentName];
-  return <Icon2/>;
-}
+// 컴포넌트 객체를 직접 변수에 담는건 되고, 그 컴포넌트 이름의 문자열을 변수에 담아서 호출하는건 왜안댐?
+const setActiveComponent = (Obj) => {
+  const iconComponentName = Obj.svg;
+  // console.log(iconComponentName);
+  const Icon2 = MUIicon[iconComponentName];
+  return <Icon2 />;
+};
 
-const setActiveComponent2 = (obj)=>{
-  const ComponentName = obj['svg'];
+const setActiveComponent2 = (obj) => {
+  const ComponentName = obj.svg;
   console.log(ComponentName);
   return ComponentName;
-}
+};
 
 export default function MiniDrawer() {
-  //MUI
+  // MUI
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
 
-  //Add State - kth
-  const [navJson, setNavJson] =useState([]);
-  useEffect(()=>{
+  // Add State - kth
+  const [navJson, setNavJson] = useState([]);
+  useEffect(() => {
     fetch('Json/NavJSON.json')
-    .then((response)=>response.json())
-    .then((data)=>{
-      console.log("Success get Json Data!!");
-      setNavJson(data);
-    })
-  },[]);
-
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success get Json Data!!');
+        setNavJson(data);
+      });
+  }, []);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -133,9 +132,10 @@ export default function MiniDrawer() {
             sx={{
               marginRight: 5,
               ...(open && { display: 'none' }),
-            }}>
+            }}
+          >
             <MenuIcon />
-          </IconButton> 
+          </IconButton>
           <Typography variant="h6" noWrap component="div">
             Mini variant drawer
           </Typography>
@@ -153,7 +153,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {navJson.map((text,index) => (
+          {navJson.map((text, index) => (
             <ListItem key={text.key} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -169,8 +169,8 @@ export default function MiniDrawer() {
                     justifyContent: 'center',
                   }}
                 >
-                {/* <ListAltRounded/> */}
-                {MUIicon[setActiveComponent(text)]}
+                  {/* <ListAltRounded/> */}
+                  {MUIicon[setActiveComponent(text)]}
                 </ListItemIcon>
 
                 <ListItemText primary={text.title} sx={{ opacity: open ? 1 : 0 }} />
