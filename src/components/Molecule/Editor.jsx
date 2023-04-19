@@ -1,18 +1,17 @@
-import React, { useMemo } from 'react';
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Box } from '@mui/system';
 import { useFormContext } from 'react-hook-form';
 
-export default function Editor({ EditorContextName }) {
+export default function Editor({ EditorContextName, defaultText }) {
   const formContext = useFormContext();
   const handleEditorInput = (input) => {
     formContext.setValue(EditorContextName, input);
   };
-
   const modules = useMemo(() => ({
-    syntax: false,
     toolbar: {
       container: [
         [{ header: [1, 2, 3, false] }],
@@ -29,7 +28,7 @@ export default function Editor({ EditorContextName }) {
         theme="snow"
         onChange={handleEditorInput}
         modules={modules}
-        spellCheck={false}
+        defaultValue={defaultText}
       />
     </Box>
   );
@@ -37,5 +36,5 @@ export default function Editor({ EditorContextName }) {
 
 Editor.propTypes = {
   EditorContextName: PropTypes.string,
-  // defaultValue: PropTypes.string,
+  defaultText: PropTypes.string,
 };

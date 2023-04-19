@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 // MUI
 import Box from '@mui/material/Box';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 // Atomic Component
 import Editor from '../Molecule/Editor';
 import DialogHeader from '../Molecule/DialogHeader';
@@ -17,22 +18,38 @@ import PostData from '../../Utils/PostData';
 */
 
 /** Props로 전달받아야 하는 것.
- *  1)POSTtarget : 열람 테이블 유형(유지보수,프로젝트), 유형(신규,수정)
+ *  1) POST_TARGET     : 열람 테이블 유형(유지보수,프로젝트), 유형(신규,수정)
+ *  2) DEFAULT_VALUE   : 내용 수정일 경우 Props로 해당 컴포넌트의 내용, 시간, 테이블 유형을 가져옴.
+ *                       추가일 경우에는 디폴트 파라미터로 undefined 처리.
  */
-const testTraget = 'addhist'; // 나중에는 Props로 받은예정.
-export default function UserHistoryInput() {
+const defaultBefore = {
+  inputDate: dayjs(),
+  tableType: undefined,
+  textValue: undefined,
+};
+export default function UserHistoryInput({ POST_TARGET = '/addhist', DEFAULT_VALUE = defaultBefore }) {
   const methods = useForm();
-  const postSubmit = (data) => { PostData(testTraget, data); };
+  const postSubmit = (data) => { PostData(POST_TARGET, data); };
 
   return (
     <Box sx={{ marginTop: 1, width: '700px', position: 'relative' }}>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(postSubmit)}>
-          <DialogHeader DatePickerContextName="DatePicker" TableTypeContextName="TableTypeSelector" />
-          <Editor EditorContextName="EditorText" />
+          <DialogHeader DatePickerContextName="DatePicker" TableTypeContextName="TableTypeSelector" DEFAULT_VALUE={DEFAULT_VALUE} />
+          <Editor EditorContextName="EditorText" defaultText={DEFAULT_VALUE.textValue} />
           <BtnSubmit />
         </form>
       </FormProvider>
     </Box>
   );
 }
+
+UserHistoryInput.propTypes = {
+  POST_TARGET: PropTypes.string,
+  DEFAULT_VALUE: PropTypes.shape({
+    // eslint-disable-next-line react/no-typos
+    inputDate: PropTypes.Object,
+    tableType: PropTypes.string,
+    textValue: PropTypes.string,
+  }),
+};

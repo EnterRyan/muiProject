@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -9,7 +10,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useFormContext } from 'react-hook-form';
 
 // MUI datePicker
-export default function BtnCallCalender({ DatePickerContextName }) {
+export default function BtnCallCalender({ DatePickerContextName, defaultDate }) {
   const useContext = useFormContext();
   const handleDatePick = (newValue) => { useContext.setValue(DatePickerContextName, newValue); };
 
@@ -21,6 +22,7 @@ export default function BtnCallCalender({ DatePickerContextName }) {
           onChange={handleDatePick}
           format="YYYY-MM-DD"
           mask="____-__-__"
+          defaultValue={defaultDate}
         />
       </DemoContainer>
     </LocalizationProvider>
@@ -30,4 +32,5 @@ export default function BtnCallCalender({ DatePickerContextName }) {
 
 BtnCallCalender.propTypes = {
   DatePickerContextName: PropTypes.string,
+  defaultDate: PropTypes.object,
 };
