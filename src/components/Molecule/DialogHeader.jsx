@@ -10,12 +10,7 @@ import ExitBtn from '../Atoms/ExitBtn';
 import SelectTableType from '../Atoms/SelectTableType';
 
 // TODO: 다이얼로그 헤더는 유형에따라 위에 있어야할 것이 다른데 합성모델로 구현이 가능할까?
-const defaultBefore = {
-  inputDate: '',
-  tableType: '',
-  textValue: '',
-};
-export default function DialogHeader({ DatePickerContextName, TableTypeContextName, DEFAULT_VALUE = defaultBefore }) {
+export default function DialogHeader({ DatePickerContextName, TableTypeContextName, DEFAULT_VALUE }) {
   return (
     <Box sx={{ marginBottom: '5px' }}>
       <Grid container>
@@ -31,7 +26,8 @@ export default function DialogHeader({ DatePickerContextName, TableTypeContextNa
               <Grid item xs="auto">
                 <SelectTableType
                   TableTypeContextName={TableTypeContextName}
-                  defaultTableType={DEFAULT_VALUE.textValue}
+                  defaultTableType={DEFAULT_VALUE.tableType}
+                  UseType="add"
                 />
               </Grid>
             </Grid>

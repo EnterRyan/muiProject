@@ -24,7 +24,7 @@ import PostData from '../../Utils/PostData';
  */
 const defaultBefore = {
   inputDate: dayjs(),
-  tableType: undefined,
+  tableType: 'select',
   textValue: undefined,
 };
 export default function UserHistoryInput({ POST_TARGET = '/addhist', DEFAULT_VALUE = defaultBefore }) {
