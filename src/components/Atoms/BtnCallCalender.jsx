@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // MUI
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -12,6 +12,7 @@ import { useFormContext } from 'react-hook-form';
 // MUI datePicker
 export default function BtnCallCalender({ DatePickerContextName, defaultDate }) {
   const useContext = useFormContext();
+  useEffect(() => { useContext.setValue(DatePickerContextName, defaultDate); }, []);
   const handleDatePick = (newValue) => { useContext.setValue(DatePickerContextName, newValue); };
 
   return (

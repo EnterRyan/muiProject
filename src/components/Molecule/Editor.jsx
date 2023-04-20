@@ -8,6 +8,7 @@ import { useFormContext } from 'react-hook-form';
 
 export default function Editor({ EditorContextName, defaultText }) {
   const formContext = useFormContext();
+  useEffect(() => { formContext.setValue(EditorContextName, defaultText); }, []);
   const handleEditorInput = (input) => {
     formContext.setValue(EditorContextName, input);
   };

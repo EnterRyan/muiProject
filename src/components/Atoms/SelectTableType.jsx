@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // MUI
 import {
@@ -17,9 +17,13 @@ import { useFormContext } from 'react-hook-form';
  */
 export default function SelectTableType({ TableTypeContextName, defaultTableType, UseType }) {
   const useContext = useFormContext();
-  const [inputDate, setInputDate] = useState(defaultTableType);
+  const [tableType, setTableType] = useState(defaultTableType);
+
+  // 초기 Props로 전달받은 defaultValue 설정 부분. 최초 랜더링시에만 동작으로 의존성 필요없음.
+  useEffect(() => { useContext.setValue(TableTypeContextName, tableType); }, []);
+
   const getTableType = (e) => {
-    setInputDate(e.target.value);
+    setTableType(e.target.value);
     useContext.setValue(TableTypeContextName, e.target.value);
   };
   return (
@@ -29,7 +33,7 @@ export default function SelectTableType({ TableTypeContextName, defaultTableType
         name={TableTypeContextName}
         labelId="tableSelectlabel"
         id="tableSelectType"
-        value={inputDate}
+        value={tableType}
         label="tableType"
         onChange={getTableType}
       >

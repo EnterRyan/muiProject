@@ -29,7 +29,13 @@ const defaultBefore = {
 };
 export default function UserHistoryInput({ POST_TARGET = '/addhist', DEFAULT_VALUE = defaultBefore }) {
   const methods = useForm();
-  const postSubmit = (data) => { PostData(POST_TARGET, data); };
+  const postSubmit = (data) => {
+    if (data.tableType === 'select') {
+      console.log('Get OUT Fucker');
+      return;
+    }
+    PostData(POST_TARGET, data);
+  };
 
   return (
     <Box sx={{ marginTop: 1, width: '700px', position: 'relative' }}>
