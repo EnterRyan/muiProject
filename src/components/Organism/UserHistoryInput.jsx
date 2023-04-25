@@ -11,6 +11,7 @@ import DialogHeader from '../Molecule/DialogHeader';
 import BtnSubmit from '../Atoms/BtnSubmit';
 // api
 import PostData from '../../Utils/PostData';
+import XSSFilter from '../../Utils/XSSFilter';
 
 /* DialogHeader, Editor, submitbitton 구성
 *  React-hook-form의 Controller를 사용해봤으나 하위 컴포넌트가 의존성이 너무 강해져서 useFormContext로 변경.
@@ -29,11 +30,12 @@ const defaultBefore = {
 };
 export default function UserHistoryInput({ POST_TARGET = '/addhist', DEFAULT_VALUE = defaultBefore }) {
   const methods = useForm();
+
+  // toast popup으로 테이블 유형 선택 유도.
   const postSubmit = (data) => {
-    if (data.tableType === 'select') {
-      console.log('Get OUT Fucker');
-      return;
-    }
+    if (data.TableTypeSelector === 'select') { return; }
+    const filHtmldata = XSSFilter(data.EditorText);
+    methods.setValue('EditorText', filHtmldata);
     PostData(POST_TARGET, data);
   };
 

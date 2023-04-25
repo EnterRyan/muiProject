@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // MUI
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -13,7 +13,11 @@ import { useFormContext } from 'react-hook-form';
 export default function BtnCallCalender({ DatePickerContextName, defaultDate }) {
   const useContext = useFormContext();
   useEffect(() => { useContext.setValue(DatePickerContextName, defaultDate); }, []);
-  const handleDatePick = (newValue) => { useContext.setValue(DatePickerContextName, newValue); };
+  const [selectDate, setSelectDate] = useState(defaultDate);
+  const handleDatePick = (newValue) => {
+    setSelectDate(newValue);
+    useContext.setValue(DatePickerContextName, newValue);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -23,7 +27,7 @@ export default function BtnCallCalender({ DatePickerContextName, defaultDate }) 
           onChange={handleDatePick}
           format="YYYY-MM-DD"
           mask="____-__-__"
-          defaultValue={defaultDate}
+          value={selectDate}
         />
       </DemoContainer>
     </LocalizationProvider>
