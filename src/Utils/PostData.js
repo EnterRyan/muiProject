@@ -1,21 +1,27 @@
+import API from './config';
 /**
- * @param postTarget   : 서버에 어떤 POST를 전달할지 구분.
- * @param userInputObj : 서버에 전송할 데이터 Object
+ * @param userInputObj : 서버에 전송할 데이터 Object. 첫번째 데이터는 POST 목적임.
  * TODO
- * 1)postTarget을 확인하여 URL을 설정(Login,addHistory,fixHistory)
- * 2)클라이언트가 입력한 내용이 xss공격이 있는지 체크함.
- * 3)History에 해당하면, 사용자 입력시간을 DB에 저장할 폼(YYYY-MM-DD)형태로 변환시켜야 할듯.
+ * 1) 오브젝트의 첫 번째 데이터를 키로 URL을 가져옴. (Login,addHistory,fixHistory)
+ * 2) History에 해당하면, 사용자 입력시간을 DB에 저장할 폼(YYYY-MM-DD)형태로 변환시켜야 할듯.
  */
-const checkTargetURL = (postTarget) => {
-  let PostURL = '';
-  if (postTarget === 'addhist') { PostURL = './test'; }
-  console.log(process.env.REACT_APP_API_HISTORYADD);
-  return PostURL;
+const checkURL = (inputType) => {
+  let url;
+  switch (inputType) {
+    case 'ADDHIST':
+      url = API.ADDHIST;
+      break;
+    case 'MODHIST':
+      url = API.MODHIST;
+      break;
+    default:
+      url = './404';
+  }
+  return url;
 };
-
-const PostData = (postTarget, userInputData) => {
-  const PostURL = checkTargetURL(postTarget);
-  console.log(PostURL, userInputData);
-  console.log(process.env.REACT_APP_API_HISTORYADD);
+const PostData = (userInputObj) => {
+  console.log(userInputObj);
+  const API_URL = checkURL(userInputObj.inputType);
+  console.log(API_URL);
 };
 export default PostData;

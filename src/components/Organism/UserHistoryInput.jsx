@@ -24,19 +24,22 @@ import XSSFilter from '../../Utils/XSSFilter';
  *                       추가일 경우에는 디폴트 파라미터로 undefined 처리.
  */
 const defaultBefore = {
+  inputType: 'ADDHIST',
   inputDate: dayjs(),
   tableType: 'select',
   textValue: undefined,
 };
-export default function UserHistoryInput({ POST_TARGET = '/addhist', DEFAULT_VALUE = defaultBefore }) {
+export default function UserHistoryInput({ DEFAULT_VALUE = defaultBefore }) {
   const methods = useForm();
-
   // toast popup으로 테이블 유형 선택 유도.
   const postSubmit = (data) => {
+    if (DEFAULT_VALUE.inputType === 'ADDHIST') {
+      methods.setValue('inputType', 'ADDHIST');
+    }
     if (data.TableTypeSelector === 'select') { return; }
     const filHtmldata = XSSFilter(data.EditorText);
     methods.setValue('EditorText', filHtmldata);
-    PostData(POST_TARGET, data);
+    PostData(data);
   };
 
   return (
@@ -53,7 +56,6 @@ export default function UserHistoryInput({ POST_TARGET = '/addhist', DEFAULT_VAL
 }
 
 UserHistoryInput.propTypes = {
-  POST_TARGET: PropTypes.string,
   DEFAULT_VALUE: PropTypes.shape({
     // eslint-disable-next-line react/no-typos
     inputDate: PropTypes.Object,
