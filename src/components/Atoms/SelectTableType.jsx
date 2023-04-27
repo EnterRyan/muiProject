@@ -25,6 +25,7 @@ export default function SelectTableType({ TableTypeContextName, defaultTableType
   const getTableType = (e) => {
     setTableType(e.target.value);
     useContext.setValue(TableTypeContextName, e.target.value);
+    console.log(useContext.getValues(TableTypeContextName));
   };
   return (
     <FormControl fullWidth>
