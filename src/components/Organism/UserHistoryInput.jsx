@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 // MUI
@@ -12,34 +12,41 @@ import BtnSubmit from '../Atoms/BtnSubmit';
 // api
 import PostData from '../../Utils/PostData';
 import XSSFilter from '../../Utils/XSSFilter';
+import API from '../../Utils/config';
 
-/* DialogHeader, Editor, submitbitton 구성
-*  React-hook-form의 Controller를 사용해봤으나 하위 컴포넌트가 의존성이 너무 강해져서 useFormContext로 변경.
-*  ContextAPI를 좀 알아야 useFormContext의 동작을 이해할듯.(re-rendering 문제를 체크해보자.)
-*/
-
-/** Props로 전달받아야 하는 것.
- *  1) POST_TARGET     : 열람 테이블 유형(유지보수,프로젝트), 유형(신규,수정)
- *  2) DEFAULT_VALUE   : 내용 수정일 경우 Props로 해당 컴포넌트의 내용, 시간, 테이블 유형을 가져옴.
- *                       추가일 경우에는 디폴트 파라미터로 undefined 처리.
+/** Props
+ *  DEFAULT_VALUE   : 추가 일경우 ProjectCode 제외 전부 기본값으로 설정.
+ *                    수정일 경우 받은 값들을 기본으로 가져와서 수정된 내용이 submit으로 전송됨.(histId를 식별자로)
  */
 const defaultBefore = {
-  inputType: 'ADDHIST',
+  ProjectCode: 'M-102-B333', // TEST용 하드코딩임ㅋ
+  histId: undefined,
   inputDate: dayjs(),
   tableType: 'select',
   textValue: undefined,
 };
+/** DialogHeader, Editor, submitbitton 구성
+*   React-hook-form의 Controller를 사용해봤으나 하위 컴포넌트가 의존성이 너무 강해져서 useFormContext로 변경.
+*   ContextAPI를 좀 알아야 useFormContext의 동작을 이해할듯.(re-rendering 문제를 체크해보자.)
+*/
 export default function UserHistoryInput({ DEFAULT_VALUE = defaultBefore }) {
   const methods = useForm();
-  // toast popup으로 테이블 유형 선택 유도.
+  const API_URL = DEFAULT_VALUE.histId === undefined ? API.ADDHIST : API.LOGIN;
+
+  useEffect(() => {
+    methods.setValue('ProjectCode', DEFAULT_VALUE.ProjectCode);
+    methods.setValue('histId', DEFAULT_VALUE.histId);
+  });
+
   const postSubmit = (data) => {
-    if (DEFAULT_VALUE.inputType === 'ADDHIST') {
-      methods.setValue('inputType', 'ADDHIST');
+    if (data.TableTypeSelector === 'select') {
+      // TODO : toast popup으로 테이블 유형 선택 유도.
+      console.log('select exception');
+      return;
     }
-    if (data.TableTypeSelector === 'select') { return; }
     const filHtmldata = XSSFilter(data.EditorText);
     methods.setValue('EditorText', filHtmldata);
-    PostData(data);
+    PostData(API_URL, data);
   };
 
   return (
