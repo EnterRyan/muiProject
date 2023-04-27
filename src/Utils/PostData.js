@@ -10,7 +10,7 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
  */
 
 const PostData = (postUrl, postData) => {
-  axios.post(postUrl, postData, { withCredentials: true })
+  axios.post(postUrl, postData)
     .then((res) => {
       console.log(res);
     })

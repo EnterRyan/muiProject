@@ -1,4 +1,4 @@
-const BASE_URL = 'http://192.168.11.98:5000';
+const BASE_URL = 'http://192.168.11.98:3000';
 
 export default {
   ADDHIST: `${BASE_URL}/addhist`,
