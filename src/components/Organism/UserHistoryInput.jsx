@@ -26,8 +26,9 @@ const defaultBefore = {
   textValue: undefined,
 };
 /** DialogHeader, Editor, submitbitton 구성
-*   React-hook-form의 Controller를 사용해봤으나 하위 컴포넌트가 의존성이 너무 강해져서 useFormContext로 변경.
-*   ContextAPI를 좀 알아야 useFormContext의 동작을 이해할듯.(re-rendering 문제를 체크해보자.)
+*   TODO List
+*   1) DataPicker 날짜를 DB에 저장할때도 YYYY-MM-DD 형태로 저장해야됨.(같은날 우선순위 까지 고려)
+*   2) 테이블 타입선택하지 않았을 경우 Alert이 발생하도록 Alert 컴포넌트 추가필요.
 */
 export default function UserHistoryInput({ DEFAULT_VALUE = defaultBefore }) {
   const methods = useForm();
