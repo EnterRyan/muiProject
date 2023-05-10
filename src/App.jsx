@@ -1,35 +1,34 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import UserHistoryInput from './components/Organism/UserHistoryInput';
+/* eslint-disable no-unused-vars */
+import {
+  Routes, useNavigate, Route,
+} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+
+// Component
+import AppHome from './components/Pages/AppHome';
 import AppLogin from './components/Pages/AppLogin';
+import UserHistoryInput from './components/Organism/UserHistoryInput';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <AppLogin />,
-    errorElement: <p>404</p>,
-  },
-  {
-    path: '/main',
-    element: <p>MainPage</p>,
-  },
-  {
-    path: '/main/detail',
-    element: <p>DetailPage</p>,
-  },
-  {
-    path: '/main/FAQ',
-    element: <p>FAQPage</p>,
-  },
-  {
-    path: '/comtest',
-    element: <UserHistoryInput />,
-  },
-]);
+function ProtectedRoute({ children, ...rest }) {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      navigate('/AppLogin');
+    }
+  }, [isLoggedIn]);
+
+  return children;
+}
+// TODO :  비로그인시 접근이 불가능 페이지 리스트를 오브젝트로 나열하여 map하기.
 function App() {
   return (
-    <RouterProvider router={router} />
+    <Routes>
+      <Route path="/*" element={<ProtectedRoute><AppHome /></ProtectedRoute>} />
+      <Route path="/comtest" element={<ProtectedRoute><UserHistoryInput /></ProtectedRoute>} />
+      <Route path="/AppLogin" element={<AppLogin />} />
+    </Routes>
   );
 }
 
