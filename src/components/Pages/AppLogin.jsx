@@ -1,5 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope */
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 // MUI
 import Container from '@mui/material/Container';
@@ -72,7 +71,6 @@ export default function AppLogin() {
       });
   };
   return (
-    // eslint-disable-next-line react/react-in-jsx-scope
     <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
       <Container fixed maxWidth="lg" sx={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
         <Box sx={{ width: '70%', margin: '0 auto' }}>
@@ -104,7 +102,7 @@ export default function AppLogin() {
               onChange={handleForm}
               value={userForm.userPassword}
             />
-            <Button type="submit" variant="contained" onClick={handleLoginData} fullWidth sx={{ marginTop: '15px' }}>Login</Button>
+            <Button type="submit" variant="contained" onClick={hand leLoginData} fullWidth sx={{ marginTop: '15px' }}>Login</Button>
           </FormControl>
         </Box>
       </Container>
